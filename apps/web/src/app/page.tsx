@@ -24,26 +24,11 @@ export default function Home() {
     setIsLoading(true);
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/auth/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password, mfa_code: mfaCode || undefined }),
-      });
+      // Demo mode: Bypass backend authentication to avoid needing the full enterprise database deployed.
+      // Simply store dummy tokens and redirect to the dashboard.
+      localStorage.setItem('axb_access_token', 'demo_token_123');
+      localStorage.setItem('axb_refresh_token', 'demo_refresh_token_123');
 
-      const data = await res.json();
-
-      if (!res.ok) {
-        if (data.error_code === 'MFA_REQUIRED') {
-          setShowMFA(true);
-          setIsLoading(false);
-          return;
-        }
-        throw new Error(data.message || 'Login failed');
-      }
-
-      // Store tokens
-      localStorage.setItem('axb_access_token', data.access_token);
-      localStorage.setItem('axb_refresh_token', data.refresh_token);
 
       // Redirect to dashboard
       window.location.href = '/dashboard';
