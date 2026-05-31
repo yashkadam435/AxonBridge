@@ -1,0 +1,41 @@
+_format_version: "3.0"
+
+services:
+  - name: axonbridge-api
+    url: http://axonbridge-api:8000
+    routes:
+      - name: api-routes
+        paths: ["/api/v1"]
+
+  - name: axonbridge-agent-service
+    url: http://axonbridge-agent-service:8000
+    routes:
+      - name: agent-routes
+        paths: ["/api/v1/agent"]
+  - name: axonbridge-nlp-service
+    url: http://axonbridge-nlp-service:8000
+    routes:
+      - name: nlp-routes
+        paths: ["/api/v1/nlp"]
+
+  - name: axonbridge-clinical-service
+    url: http://axonbridge-clinical-service:8004
+    routes:
+      - name: clinical-routes
+        paths: ["/api/v1/clinical"]
+
+plugins:
+  - name: rate-limiting
+    config:
+      minute: 100
+      policy: redis
+      redis_host: axonbridge-redis
+  
+  - name: request-transformer
+    config:
+      add:
+        headers: ["X-Request-ID:$(uuid)"]
+  
+  - name: file-log
+    config:
+      path: /var/log/kong/access.log

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eHospital Mock Portal</title>
+    <style>
+        body { font-family: system-ui; padding: 20px; background: #f4f4f9; }
+        .patient-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; max-width: 400px; }
+        input, button { padding: 10px; margin-top: 10px; width: 100%; box-sizing: border-box; }
+        button { background: #0f172a; color: white; border: none; cursor: pointer; border-radius: 4px; }
+        .success { color: #10b981; display: none; margin-top: 10px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>eHospital PROD</h1>
+    <div class="patient-card">
+        <h3>Patient Registration</h3>
+        <label for="mrn">MRN (Medical Record Number)</label>
+        <input type="text" id="mrn" value="MRN-847293" readonly>
+        
+        <label for="diagnosis">Primary Diagnosis</label>
+        <input type="text" id="diagnosis" placeholder="Enter ICD-10 Code">
+        
+        <button id="saveBtn" onclick="saveRecord()">Save to Record</button>
+        <div id="successMsg" class="success">Record Saved Successfully!</div>
+    </div>
+
+    <script>
+        function saveRecord() {
+            setTimeout(() => {
+                document.getElementById('successMsg').style.display = 'block';
+            }, 500);
+        }
+    </script>
+</body>
+</html>

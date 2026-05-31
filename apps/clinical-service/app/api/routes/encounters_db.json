@@ -1,0 +1,160 @@
+{
+  "ENC-97F486E0": {
+    "id": "ENC-97F486E0",
+    "patient_id": "PT-DD68",
+    "patient_name": "John Doe",
+    "age": 45,
+    "gender": "Male",
+    "encounter_type": "outpatient",
+    "department": "General",
+    "clinician": "Doctor Sharma",
+    "chief_complaint": "severe chest pain, radiating to the left arm",
+    "symptoms": [
+      "chest pain",
+      "shortness of breath"
+    ],
+    "history": "hypertension, type 2 diabetics",
+    "vital_signs": {
+      "systolic_bp": 120,
+      "diastolic_bp": 60,
+      "heart_rate": 90,
+      "spo2": 89,
+      "temperature": 104,
+      "respiratory_rate": 16
+    },
+    "current_medications": [
+      "metformin"
+    ],
+    "allergies": [
+      "penicillin",
+      "sulfa"
+    ],
+    "status": "active",
+    "soap": {
+      "subjective": "The patient, John Doe, a 45-year-old male, presents with a chief complaint of severe chest pain radiating to the left arm. He has a history of hypertension and type 2 diabetes. The patient reports experiencing chest pain and shortness of breath. His current medications include metformin, and he has allergies to penicillin and sulfa.",
+      "objective": "Vital signs show a systolic blood pressure of 120 mmHg, diastolic blood pressure of 60 mmHg, heart rate of 90 beats per minute, oxygen saturation of 89% on room air, temperature of 104\u00b0F, and a respiratory rate of 16 breaths per minute. The patient's symptoms and vital signs suggest a potential acute coronary syndrome or other cardiac condition.",
+      "assessment": "The primary diagnosis is acute coronary syndrome, given the patient's severe chest pain radiating to the left arm and history of hypertension and type 2 diabetes. Differential diagnoses include myocardial infarction, unstable angina, and pulmonary embolism. Further evaluation with electrocardiogram (ECG), cardiac biomarkers, and imaging studies is necessary to confirm the diagnosis.",
+      "plan": "The patient will be administered aspirin 325mg PO and nitroglycerin 0.4mg SL for chest pain, with oxygen therapy to maintain oxygen saturation above 92%. The patient will be placed on cardiac monitoring and an ECG will be performed. Cardiac biomarkers, including troponin, will be ordered. The patient will be referred to cardiology for further evaluation and management. Follow-up appointments will be scheduled as necessary."
+    },
+    "icd_codes": [
+      "I21.4",
+      "E11.9",
+      "I10"
+    ],
+    "prescriptions": [
+      {
+        "medication": "Aspirin",
+        "dosage": "81-325 mg",
+        "route": "Oral",
+        "frequency": "Once daily",
+        "duration": "Until further evaluation",
+        "notes": "To reduce myocardial oxygen demand and prevent further thrombosis"
+      },
+      {
+        "medication": "Nitroglycerin",
+        "dosage": "0.4 mg",
+        "route": "Sublingual",
+        "frequency": "Every 5 minutes as needed",
+        "duration": "Until chest pain resolves",
+        "notes": "For immediate relief of chest pain"
+      },
+      {
+        "medication": "Metoprolol",
+        "dosage": "25-50 mg",
+        "route": "Oral",
+        "frequency": "Twice daily",
+        "duration": "Until further evaluation",
+        "notes": "To reduce myocardial oxygen demand and heart rate"
+      },
+      {
+        "medication": "Clopidogrel",
+        "dosage": "300-600 mg",
+        "route": "Oral",
+        "frequency": "Loading dose, then 75 mg daily",
+        "duration": "Until further evaluation",
+        "notes": "To prevent platelet aggregation"
+      }
+    ],
+    "ai_confidence": 0.85,
+    "soap_status": "approved"
+  },
+  "ENC-54267ACB": {
+    "id": "ENC-54267ACB",
+    "patient_id": "PT-B4A7",
+    "patient_name": "John Doe",
+    "age": 45,
+    "gender": "Male",
+    "encounter_type": "outpatient",
+    "department": "General",
+    "clinician": "doctor Sharma",
+    "chief_complaint": "severe chest pain radiating to left arm",
+    "symptoms": [
+      "chest pain",
+      "shortness of breath"
+    ],
+    "history": "hypertension, type 2 diabetes",
+    "vital_signs": {
+      "systolic_bp": 120,
+      "diastolic_bp": 80,
+      "heart_rate": 90,
+      "spo2": 94,
+      "temperature": 94,
+      "respiratory_rate": 16
+    },
+    "current_medications": [
+      "metformin"
+    ],
+    "allergies": [
+      "penicillin"
+    ],
+    "status": "active",
+    "soap": {
+      "subjective": "The patient, John Doe, a 45-year-old male, presents with a chief complaint of severe chest pain radiating to his left arm. He has a history of hypertension and type 2 diabetes. The patient reports experiencing chest pain and shortness of breath. His current medication includes metformin, and he has an allergy to penicillin.",
+      "objective": "Vital signs show a systolic blood pressure of 120 mmHg, diastolic blood pressure of 80 mmHg, heart rate of 90 beats per minute, oxygen saturation of 94% on room air, temperature of 98.6\u00b0F (37\u00b0C) (but was reported as 94 which seems to be an error and is considered as 98.6 for this assessment), and a respiratory rate of 16 breaths per minute.",
+      "assessment": "The clinical assessment suggests that the patient's presentation is concerning for acute coronary syndrome (ACS), given the nature of his chest pain and his risk factors for cardiovascular disease, including hypertension and type 2 diabetes. Differential diagnoses include acute myocardial infarction, unstable angina, pulmonary embolism, and musculoskeletal pain.",
+      "plan": "The patient should undergo immediate electrocardiogram (ECG) and troponin level assessment to evaluate for myocardial infarction. He should be placed on oxygen therapy to maintain saturation above 94% and started on aspirin 325 mg orally if not contraindicated. Nitrates and beta-blockers may be considered based on blood pressure and heart rate. The patient should be monitored closely in the emergency department or a coronary care unit for any signs of deterioration. Follow-up appointments with a cardiologist and primary care physician are recommended. Referral to a cardiologist for further evaluation and management, including possible cardiac catheterization, should be considered."
+    },
+    "icd_codes": [
+      "I21.4",
+      "R07.1",
+      "E11.9",
+      "I10"
+    ],
+    "prescriptions": [
+      {
+        "medication": "Aspirin",
+        "dosage": "81-325 mg",
+        "route": "Oral",
+        "frequency": "Once daily",
+        "duration": "Until further notice",
+        "notes": "To be taken with food to minimize gastrointestinal side effects"
+      },
+      {
+        "medication": "Clopidogrel",
+        "dosage": "600 mg loading dose, then 75 mg daily",
+        "route": "Oral",
+        "frequency": "Once daily",
+        "duration": "Until further notice",
+        "notes": "Monitor for signs of bleeding"
+      },
+      {
+        "medication": "Metoprolol",
+        "dosage": "25-50 mg",
+        "route": "Oral",
+        "frequency": "Twice daily",
+        "duration": "Until further notice",
+        "notes": "Monitor blood pressure and heart rate"
+      },
+      {
+        "medication": "Atorvastatin",
+        "dosage": "40-80 mg",
+        "route": "Oral",
+        "frequency": "Once daily",
+        "duration": "Until further notice",
+        "notes": "Monitor liver function tests"
+      }
+    ],
+    "ai_confidence": 0.85,
+    "soap_status": "approved"
+  }
+}

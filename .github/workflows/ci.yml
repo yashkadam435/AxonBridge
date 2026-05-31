@@ -1,0 +1,87 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      # Frontend Linting
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: 'apps/web/package-lock.json'
+      - name: Install Frontend Deps
+        run: cd apps/web && npm ci
+      - name: Lint Frontend
+        run: cd apps/web && npm run lint
+
+      # Backend Linting
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Ruff
+        run: pip install ruff
+      - name: Lint Backend
+        run: cd apps/api && ruff check .
+      - name: Format Backend
+        run: cd apps/api && ruff format --check .
+
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: pgvector/pgvector:pg15
+        env:
+          POSTGRES_PASSWORD: changeme_secure_password_here
+          POSTGRES_DB: axonbridge
+          POSTGRES_USER: axonbridge
+        ports: ['5432:5432']
+      redis:
+        image: redis:7-alpine
+        ports: ['6379:6379']
+    steps:
+      - uses: actions/checkout@v4
+      
+      # Backend Tests
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Backend Deps
+        run: cd apps/api && pip install -e .[dev]
+      - name: Run Backend Tests
+        run: cd apps/api && pytest
+        env:
+          DATABASE_URL: "postgresql+asyncpg://axonbridge:changeme_secure_password_here@localhost:5432/axonbridge"
+          REDIS_URL: "redis://localhost:6379/0"
+          JWT_SECRET_KEY: "test_secret_key"
+          ENCRYPTION_KEY: "test_encryption_key_32_bytes_long!!"
+          APP_ENV: "test"
+
+  build:
+    needs: [lint, test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      # Docker Builds
+      - name: Build API Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./apps/api
+          push: false
+          tags: axonbridge-api:latest
+
+      - name: Build Web Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./apps/web
+          push: false
+          tags: axonbridge-web:latest

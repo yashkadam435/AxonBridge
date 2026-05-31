@@ -1,0 +1,171 @@
+# AxonBridge — Lightweight Investor Demo Compose
+
+services:
+  # ---------- PostgreSQL 16 with pgvector ----------
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: axonbridge-postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-axonbridge}
+      POSTGRES_USER: ${POSTGRES_USER:-axonbridge}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme_secure_password_here}
+    ports:
+      - "5435:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-axonbridge}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # ---------- Redis 7 ----------
+  redis:
+    image: redis:7-alpine
+    container_name: axonbridge-redis
+    command: redis-server --requirepass ${REDIS_PASSWORD:-changeme_redis_password} --appendonly yes
+    ports:
+      - "6380:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD:-changeme_redis_password}", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # ---------- FastAPI Backend ----------
+  api:
+    build:
+      context: ../../apps/api
+      dockerfile: Dockerfile
+    container_name: axonbridge-api
+    environment:
+      - APP_ENV=development
+      - APP_DEBUG=true
+      - POSTGRES_HOST=axonbridge-postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=${POSTGRES_DB:-axonbridge}
+      - POSTGRES_USER=${POSTGRES_USER:-axonbridge}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-changeme_secure_password_here}
+      - DATABASE_URL=postgresql+asyncpg://${POSTGRES_USER:-axonbridge}:${POSTGRES_PASSWORD:-changeme_secure_password_here}@axonbridge-postgres:5432/${POSTGRES_DB:-axonbridge}
+      - REDIS_HOST=axonbridge-redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=${REDIS_PASSWORD:-changeme_redis_password}
+      - REDIS_URL=redis://:${REDIS_PASSWORD:-changeme_redis_password}@axonbridge-redis:6379/0
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY:-changeme_jwt_secret_min_32_chars_long}
+      - ENCRYPTION_KEY=${ENCRYPTION_KEY:-changeme_32_byte_encryption_key_here}
+      - CORS_ORIGINS=http://localhost:3000,http://localhost:8000
+      - FRONTEND_URL=http://localhost:3000
+      - GROQ_API_KEY=your_groq_api_key_here
+      - GROQ_MODEL=llama-3.3-70b-versatile
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ../../apps/api:/app
+    command: uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+    restart: unless-stopped
+
+  # ---------- Agent Service (Phase 2) ----------
+  agent-service:
+    build:
+      context: ../../apps/agent-service
+      dockerfile: Dockerfile
+    container_name: axonbridge-agent-service
+    environment:
+      - APP_ENV=development
+      - REDIS_URL=redis://:${REDIS_PASSWORD:-changeme_redis_password}@axonbridge-redis:6379/1
+      - CORE_API_URL=http://axonbridge-api:8000/api/v1
+    ports:
+      - "8002:8000"
+    depends_on:
+      - redis
+      - api
+    volumes:
+      - ../../apps/agent-service:/app
+    restart: unless-stopped
+
+  # ---------- NLP Service (Phase 3) ----------
+  nlp-service:
+    build:
+      context: ../../apps/nlp-service
+      dockerfile: Dockerfile
+    container_name: axonbridge-nlp-service
+    environment:
+      - APP_ENV=development
+      - REDIS_URL=redis://:${REDIS_PASSWORD:-changeme_redis_password}@axonbridge-redis:6379/1
+    ports:
+      - "8003:8000"
+    depends_on:
+      - redis
+    volumes:
+      - ../../apps/nlp-service:/app
+    restart: unless-stopped
+
+  # ---------- Clinical Service (Phase 4) ----------
+  clinical-service:
+    build:
+      context: ../../apps/clinical-service
+      dockerfile: Dockerfile
+    container_name: axonbridge-clinical-service
+    environment:
+      - APP_ENV=development
+      - GROQ_API_KEY=your_groq_api_key_here
+      - GROQ_MODEL=llama-3.3-70b-versatile
+      - POSTGRES_URL=postgresql+asyncpg://${POSTGRES_USER:-axonbridge}:${POSTGRES_PASSWORD:-changeme_secure_password_here}@axonbridge-postgres:5432/${POSTGRES_DB:-axonbridge}
+      - REDIS_URL=redis://:${REDIS_PASSWORD:-changeme_redis_password}@axonbridge-redis:6379/2
+    ports:
+      - "8004:8004"
+    depends_on:
+      - redis
+      - postgres
+    volumes:
+      - ../../apps/clinical-service:/app
+    restart: unless-stopped
+
+  # ---------- Next.js Frontend ----------
+  web:
+    build:
+      context: ../../apps/web
+      dockerfile: Dockerfile
+    container_name: axonbridge-web
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8080
+      - NEXT_PUBLIC_WS_URL=ws://localhost:8080
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+    restart: unless-stopped
+
+  # ---------- Kong API Gateway ----------
+  kong:
+    image: kong:alpine
+    container_name: axonbridge-kong
+    environment:
+      KONG_DATABASE: "off"
+      KONG_DECLARATIVE_CONFIG: "/etc/kong/kong.yml"
+      KONG_PROXY_ACCESS_LOG: "/dev/stdout"
+      KONG_ADMIN_ACCESS_LOG: "/dev/stdout"
+      KONG_PROXY_ERROR_LOG: "/dev/stderr"
+      KONG_ADMIN_ERROR_LOG: "/dev/stderr"
+      KONG_ADMIN_LISTEN: "0.0.0.0:8001, 0.0.0.0:8444 ssl"
+    ports:
+      - "8080:8000"
+      - "8443:8443"
+      - "8001:8001"
+      - "8444:8444"
+    volumes:
+      - ../kong/kong.yml:/etc/kong/kong.yml
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  redis_data:

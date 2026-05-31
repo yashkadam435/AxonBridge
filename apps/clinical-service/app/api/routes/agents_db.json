@@ -1,0 +1,141 @@
+{
+  "agents": {
+    "Agent-926": {
+      "id": "Agent-926",
+      "name": "Agent-926",
+      "status": "paused",
+      "his": "Cerner",
+      "workflow": "Discharge Summary",
+      "progress": 0,
+      "actions": 0,
+      "confidence": 0.95,
+      "mode": "assisted",
+      "uptime": "0h 0m",
+      "start_time": 1780238601.337911,
+      "history": []
+    },
+    "Agent-681": {
+      "id": "Agent-681",
+      "name": "Agent-681",
+      "status": "paused",
+      "his": "Practo",
+      "workflow": "Patient Registration",
+      "progress": 0,
+      "actions": 0,
+      "confidence": 0.95,
+      "mode": "automated",
+      "uptime": "0h 0m",
+      "start_time": 1780238611.608213,
+      "history": []
+    },
+    "Agent-534": {
+      "id": "Agent-534",
+      "name": "Agent-534",
+      "status": "paused",
+      "his": "Practo",
+      "workflow": "Billing Code Entry",
+      "progress": 0,
+      "actions": 0,
+      "confidence": 0.95,
+      "mode": "assisted",
+      "uptime": "0h 0m",
+      "start_time": 1780238615.286244,
+      "history": []
+    },
+    "Agent-521": {
+      "id": "Agent-521",
+      "name": "Agent-521",
+      "status": "paused",
+      "his": "Epic",
+      "workflow": "Discharge Summary",
+      "progress": 0,
+      "actions": 0,
+      "confidence": 0.95,
+      "mode": "assisted",
+      "uptime": "0h 0m",
+      "start_time": 1780238617.718351,
+      "history": []
+    },
+    "Agent-983": {
+      "id": "Agent-983",
+      "name": "Agent-983",
+      "status": "completed",
+      "his": "Practo",
+      "workflow": "Billing Code Entry",
+      "progress": 100,
+      "actions": 5,
+      "confidence": 0.95,
+      "mode": "automated",
+      "uptime": "0h 2m",
+      "start_time": 1780238676.552981,
+      "history": [
+        "Login to Practo system",
+        "Navigate to Billing Code Entry Page",
+        "Enter Billing Code Details",
+        "Submit Billing Code Details",
+        "Verify and Confirm Billing Code Details"
+      ]
+    },
+    "Agent-454": {
+      "id": "Agent-454",
+      "name": "Agent-454",
+      "status": "completed",
+      "his": "Practo",
+      "workflow": "Discharge Summary",
+      "progress": 100,
+      "actions": 5,
+      "confidence": 0.95,
+      "mode": "assisted",
+      "uptime": "0h 0m",
+      "start_time": 1780238927.932796,
+      "history": [
+        "Login to Practo system",
+        "Retrieve patient demographics and medical history",
+        "Retrieve treatment and medication details",
+        "Compile discharge instructions and summary report",
+        "Verify discharge summary for accuracy and completeness"
+      ]
+    },
+    "Agent-348": {
+      "id": "Agent-348",
+      "name": "Agent-348",
+      "status": "completed",
+      "his": "Cerner",
+      "workflow": "Billing Code Entry",
+      "progress": 100,
+      "actions": 5,
+      "confidence": 0.95,
+      "mode": "automated",
+      "uptime": "0h 0m",
+      "start_time": 1780239191.210384,
+      "history": [
+        "Navigate to Billing Code Entry page",
+        "Enter Billing Code Details",
+        "Submit Billing Code for Verification",
+        "Review Verification Results",
+        "Confirm Billing Code Accuracy"
+      ]
+    },
+    "Agent-436": {
+      "id": "Agent-436",
+      "name": "Agent-436",
+      "status": "completed",
+      "his": "Practo",
+      "workflow": "Discharge Summary",
+      "progress": 100,
+      "actions": 5,
+      "confidence": 0.95,
+      "mode": "automated",
+      "uptime": "0h 0m",
+      "start_time": 1780247580.132637,
+      "history": [
+        "Login to Practo and navigate to patient records",
+        "Retrieve patient discharge details",
+        "Generate discharge summary report",
+        "Review and validate discharge summary report",
+        "Submit discharge summary report"
+      ]
+    }
+  },
+  "pending_actions": []
+}

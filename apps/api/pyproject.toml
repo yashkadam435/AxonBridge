@@ -1,0 +1,93 @@
+[project]
+name = "axonbridge-api"
+version = "0.1.0"
+description = "AxonBridge — Universal Agentic Automation Layer for Healthcare (API)"
+requires-python = ">=3.12"
+readme = "README.md"
+
+dependencies = [
+    # ---------- Web Framework ----------
+    "fastapi[standard]>=0.115.0",
+    "uvicorn[standard]>=0.32.0",
+    "python-multipart>=0.0.12",
+    
+    # ---------- Database ----------
+    "sqlalchemy[asyncio]>=2.0.36",
+    "asyncpg>=0.30.0",
+    "alembic>=1.14.0",
+    "pgvector>=0.3.6",
+    
+    # ---------- Validation ----------
+    "pydantic>=2.10.0",
+    "pydantic[email]>=2.10.0",
+    "pydantic-settings>=2.6.0",
+    
+    # ---------- Authentication ----------
+    "python-jose[cryptography]>=3.3.0",
+    "passlib[bcrypt]>=1.7.4",
+    "pyotp>=2.9.0",
+    "qrcode[pil]>=8.0",
+    
+    # ---------- Encryption ----------
+    "cryptography>=43.0.0",
+    
+    # ---------- Cache & Storage ----------
+    "redis>=5.2.0",
+    "minio>=7.2.12",
+    
+    # ---------- HTTP Client ----------
+    "httpx>=0.28.0",
+    
+    # ---------- Logging ----------
+    "structlog>=24.4.0",
+    
+    # ---------- Utilities ----------
+    "python-slugify>=8.0.4",
+    
+    # ---------- Automation & Agents (Phase 2) ----------
+    "playwright>=1.41.0",
+    "temporalio>=1.5.0",
+    
+    # ---------- Clinical Logic Engine (Phase 4) ----------
+    "groq>=0.4.2",
+    "langchain-core>=0.1.33",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.0",
+    "pytest-asyncio>=0.24.0",
+    "pytest-cov>=6.0.0",
+    "httpx>=0.28.0",
+    "ruff>=0.8.0",
+    "mypy>=1.13.0",
+    "factory-boy>=3.3.1",
+]
+
+[build-system]
+requires = ["setuptools>=75.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["app*"]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP", "S", "B", "A", "C4", "DTZ", "T20", "ICN"]
+ignore = ["S101", "S106"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["app"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
