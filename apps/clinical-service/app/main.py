@@ -2,7 +2,7 @@ import os
 import asyncio
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
-from app.api.routes import axonmd, cds, encounters, agents, nlp
+from app.api.routes import axonmd, cds, encounters, agents, nlp, workflows
 from app.guidelines.document_ingester import DocumentIngester
 
 app = FastAPI(title="AxonBridge Clinical Service", version="1.0.0")
@@ -49,6 +49,7 @@ app.include_router(cds.router, prefix="/api/v1/clinical/cds", tags=["CDS"])
 app.include_router(encounters.router, prefix="/api/v1/clinical/encounters", tags=["Encounters"])
 app.include_router(agents.router, prefix="/api/v1/agents", tags=["Agents"])
 app.include_router(nlp.router, prefix="/api/v1/clinical", tags=["NLP"])
+app.include_router(workflows.router, prefix="/api/v1/workflows", tags=["Workflows"])
 
 @app.websocket("/api/v1/clinical/ws")
 async def websocket_endpoint(websocket: WebSocket):
